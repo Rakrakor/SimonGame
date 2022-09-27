@@ -1,3 +1,7 @@
+//$("h1").css("color","green");
+// Either place CDN for JQUERY at the end of the HTML page of use the following to be shure the document is loaded before trying to read.js files
+/* $(document).ready(function(){   - Place function content here - })  */ 
+
 function colorNumberConversion(input){
 	colorDic = {
 		0:"green",
@@ -53,13 +57,14 @@ function compareHumanComputerInputs(){
 }
 
 function resetGame(){
-	document.querySelector("#level-title").textContent = " ...🙃 wrong sequence ...";
+	$("#level-title").text(" ...🙃 wrong sequence ...");
 	soundAnimationManagement("userWrongSelection");
 	console.log("Wrong sequence");
 	humanList = [];
 	computerList = [];
 	console.log("*******  GAME RE-START  *******");
-	setTimeout(function(){document.querySelector("#level-title").textContent = " GAME RE-START";},1000);
+	//setTimeout(function(){document.querySelector("#level-title").textContent = " GAME RE-START";},1000);
+	setTimeout(function(){$("#level-title").text(" GAME RE-START");},1000);
 	
 }
 
@@ -67,13 +72,16 @@ function resetGame(){
 
 function animation(selectedBTN){
 	if (selectedBTN != "userWrongSelection"){
-		document.querySelector("." + selectedBTN).classList.add("pressed");
-		setTimeout(function(){document.querySelector("." + selectedBTN).classList.remove("pressed");}, 1000);
+		//document.querySelector("." + selectedBTN).classList.add("pressed");
+		//setTimeout(function(){document.querySelector("." + selectedBTN).classList.remove("pressed");}, 1000);
+		$("." + selectedBTN).addClass("pressed");
+		setTimeout(function(){$("." + selectedBTN).removeClass("pressed");}, 1000);
 	}
 	else{
-		document.querySelector("h1").classList.add("game-over");
-		setTimeout(function(){document.querySelector("h1").classList.remove("game-over");}, 1000);
-		
+		//document.querySelector("h1").classList.add("game-over");
+		//setTimeout(function(){document.querySelector("h1").classList.remove("game-over");}, 1000);
+		$("h1").addClass("game-over");
+		setTimeout(function(){$("h1").removeClass("game-over");}, 1000);
 	}
 }
 
@@ -105,27 +113,24 @@ function soundAnimationManagement(selectedBTN){
 				console.log(selectedBTN);
 		}		
 		console.log(computerList);		
-}
+} 
 // ############ END: Sound & Animation ###################
-
-
 
 var computerList = [];
 var humanList = [];
 
+
 /* initiate game on Keyboard press*/
-document.addEventListener("keypress", function(){
+$(document).keypress(function(){
 	
 	setTimeout(function(){addComputerInput();}, 1000);
 
-	var lenBTN = document.querySelectorAll(".btn").length;
-	for (var i=0; i<lenBTN; i++){
-		var targetBTN =document.querySelectorAll(".btn")[i];
-		targetBTN.addEventListener("click", function() {
-		targetBTNColor = this.getAttribute("id");
-		addHumanInput (targetBTNColor);
-		});
-	}
+	$(".btn").on("click", function(){
+		var btnID = $(this).attr("id");
+		addHumanInput(btnID);
+	});
+
+
 	
 });
 
